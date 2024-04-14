@@ -4,7 +4,9 @@ import {
 } from "./scripts/cards.js";
 import {
   deleteCard,
-  createCard
+  createCard,
+  likeCard,
+  openModalImage
 } from "./components/card.js";
 import {
   openModal,
@@ -18,10 +20,15 @@ const addNewCard = document.querySelector(".profile__add-button");
 const editProfileButton = document.querySelector(".profile__edit-button");
 const editProfile = document.querySelector(".popup_type_edit");
 const closeButtons = document.querySelectorAll(".popup__close");
+const profileTitle = document.querySelector(".profile__title");
+const profileDescription = document.querySelector(".profile__description");
+const placesList = document.querySelector(".places__list");
+const name = document.querySelector(".popup__input_type_name");
+const description = document.querySelector(".popup__input_type_description");
 
 initialCards.forEach((arrayItem) => {
   const placesList = document.querySelector(".places__list");
-  placesList.append(createCard(arrayItem, deleteCard));
+  placesList.append(createCard(arrayItem, deleteCard, likeCard, openModalImage));
 });
 
 addNewCard.addEventListener("click", () => {
@@ -51,8 +58,8 @@ function handleFormSubmitProfile(evt) {
   evt.preventDefault();
   const nameInputValue = nameInput.value;
   const jobInputValue = jobInput.value;
-  document.querySelector(".profile__title").textContent = nameInputValue;
-  document.querySelector(".profile__description").textContent = jobInputValue;
+  profileTitle.textContent = nameInputValue;
+  profileDescription.textContent = jobInputValue;
   const openedPopup = document.querySelector(".popup_is-opened");
   closeModal(openedPopup);
 }
@@ -67,17 +74,15 @@ function handleFormSubmitPlace(evt) {
   evt.preventDefault();
   const placeInputValue = placeInput.value;
   const linkInputValue = linkInput.value;
-  initialCards.unshift({
+  const newCard = {
     name: placeInputValue,
     link: linkInputValue,
     alt: placeInputValue,
-  });
-  const placesList = document.querySelector(".places__list");
-  placesList.prepend(createCard(initialCards[0], deleteCard));
+  }
+  placesList.prepend(createCard(newCard, deleteCard, likeCard, openModalImage));
   const openedPopup = document.querySelector(".popup_is-opened");
   closeModal(openedPopup);
-  placeInput.value = "";
-  linkInput.value = "";
+  evt.target.reset();
 }
 
 formElementNewCard.addEventListener("submit", handleFormSubmitPlace);
@@ -87,19 +92,7 @@ popups.forEach((item) => {
 });
 
 function openModalProfile(popup){
-  const title = document.querySelector(".profile__title").textContent;
-  const description = document.querySelector(".profile__description").textContent;
-  document.getElementsByName("name")[0].value = title;
-  document.getElementsByName("description")[0].value = description;
+  name.value = profileTitle.textContent;
+  description.value = profileDescription.textContent;
   openModal(popup)
-}
-
-export function openModalImage(card) {
-  const imageCardPopup = document.querySelector(".popup_type_image");
-  openModal(imageCardPopup);
-  const cardImage = imageCardPopup.querySelector(".popup__image");
-  cardImage.src = card.querySelector(".card__image").src;
-  cardImage.alt = card.querySelector(".card__image").alt;
-  const popup__caption = imageCardPopup.querySelector(".popup__caption");
-  popup__caption.textContent = card.querySelector(".card__title").textContent;
 }
