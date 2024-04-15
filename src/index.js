@@ -6,7 +6,6 @@ import {
   deleteCard,
   createCard,
   likeCard,
-  openModalImage
 } from "./components/card.js";
 import {
   openModal,
@@ -25,6 +24,16 @@ const profileDescription = document.querySelector(".profile__description");
 const placesList = document.querySelector(".places__list");
 const name = document.querySelector(".popup__input_type_name");
 const description = document.querySelector(".popup__input_type_description");
+const imageCardPopup = document.querySelector(".popup_type_image");
+const cardImage = imageCardPopup.querySelector(".popup__image");
+const popupCaption = imageCardPopup.querySelector(".popup__caption");
+
+const openModalImage = (card) => {
+  openModal(imageCardPopup);
+  cardImage.src = card.querySelector(".card__image").src;
+  cardImage.alt = card.querySelector(".card__image").alt;
+  popupCaption.textContent = card.querySelector(".card__title").textContent;
+}
 
 initialCards.forEach((arrayItem) => {
   const placesList = document.querySelector(".places__list");
