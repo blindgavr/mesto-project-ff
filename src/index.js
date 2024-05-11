@@ -130,7 +130,7 @@ const linkInput = formElementNewCard.querySelector(".popup__input_type_url");
 }*/
 
 function handleFormSubmitPlace(evt) {
-  dataLoading(evt.submitter, "Сохранение...");
+  renderLoading(evt.submitter, "Сохранение...");
   evt.preventDefault();
   const placeInputValue = placeInput.value;
   const linkInputValue = linkInput.value;
@@ -146,18 +146,13 @@ function handleFormSubmitPlace(evt) {
     placesList.prepend(cardItem);
     const openedPopup = document.querySelector(".popup_is-opened");
     closeModal(openedPopup);
-    placeInput.value = "";
-    linkInput.value = "";
+    evt.target.reset();
     clearValidation(openedPopup, validationSettings);
   })
   .catch((err) => {
     console.log(err);
   })
-  .finally(() => dataLoading(evt.submitter, "Сохранить"));
-  //placesList.prepend(createCard(newCard, deleteCard, likeCard, openModalImage));
-  
-  
-  //evt.target.reset();
+  .finally(() => renderLoading(evt.submitter, "Сохранить"));
 }
 
 formElementNewCard.addEventListener("submit", handleFormSubmitPlace);
@@ -176,7 +171,7 @@ enableValidation(validationSettings);
 
 function handleEditProfile() {
   function handleProfileFormSubmit(evt) {
-    dataLoading(evt.submitter, "Сохранение...");
+    renderLoading(evt.submitter, "Сохранение...");
     evt.preventDefault();
     const userData = {
       titleName: name.value,
@@ -187,12 +182,12 @@ function handleEditProfile() {
       .then( (res) => {
         profileTitle.textContent = res.name;
         profileDescription.textContent = res.about;
+        closeModal(editProfile);
       })
       .catch((err) => {
         console.log(err + "ДА ЧТО Ж ТАКОЕ ТО");
       })
-      .finally(() => dataLoading(evt.submitter, "Сохранить"));
-      closeModal(editProfile);
+      .finally(() => renderLoading(evt.submitter, "Сохранить"));
   }
   const profileFormElement = editProfile.querySelector(".popup__form");
   profileFormElement.addEventListener("submit", handleProfileFormSubmit);
@@ -206,7 +201,7 @@ function handleEditAvatar() {
   const avatarInput = avatarFormElement.querySelector(".popup__input_type_url");
   let userAvatar = "";
   function handleFormSubmitAvatar(evt) {
-    dataLoading(evt.submitter, "Сохранение...");
+    renderLoading(evt.submitter, "Сохранение...");
     evt.preventDefault();
     changeAvatar({ avatar: avatarInput.value })
       .then((data) => {
@@ -217,13 +212,13 @@ function handleEditAvatar() {
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => dataLoading(evt.submitter, "Сохранить"));
+      .finally(() => renderLoading(evt.submitter, "Сохранить"));
   }
   avatarFormElement.addEventListener("submit", handleFormSubmitAvatar);
 }
 
 handleEditAvatar();
 
-function dataLoading(saveButton, status) {
+function renderLoading(saveButton, status) {
   saveButton.textContent = status;
 }

@@ -1,3 +1,7 @@
+import {
+  checkResponse
+} from "../utils/utils.js"; 
+
 const baseUrl = "https://nomoreparties.co/v1/wff-cohort-12";
 const token = "bf52937a-0b0d-4268-9d24-c6c1b2c0f5e0";
 
@@ -14,12 +18,7 @@ export const getUserData = () => {
       authorization: token,
     },
   }).
-    then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    then(checkResponse);
 };
 
 export const getInitialCards = () => {
@@ -28,12 +27,7 @@ export const getInitialCards = () => {
       authorization: token,
     },
   })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(checkResponse);
 };
 
 export const patchUserData = (name, about) => {
@@ -49,15 +43,7 @@ export const patchUserData = (name, about) => {
       about: about,
     }),
   })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка тест: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    .then(checkResponse)
 };
 
 export const postCard = (name, link, userId) => {
@@ -73,15 +59,7 @@ export const postCard = (name, link, userId) => {
       link: link,
     }),
   })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка тест: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    .then(checkResponse)
 };
 
 export const removeCard = (id) => {
@@ -92,15 +70,7 @@ export const removeCard = (id) => {
       "Content-Type": "application/json",
     },
   })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка тест: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    .then(checkResponse)
 };
 
 export const addLikeCard = (id) => {
@@ -111,15 +81,7 @@ export const addLikeCard = (id) => {
       "Content-Type": "application/json",
     },
   })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка тест: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    .then(checkResponse)
 };
 export const removeLikeCard = (id) => {
   return fetch(`${baseUrl}/cards/likes/${id}`, {
@@ -129,15 +91,7 @@ export const removeLikeCard = (id) => {
       "Content-Type": "application/json",
     },
   })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка тест: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    .then(checkResponse)
 };
 
 export const changeAvatar = (data) => {
@@ -149,13 +103,5 @@ export const changeAvatar = (data) => {
     },
     body: JSON.stringify(data),
   })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      return Promise.reject(`Ошибка тест: ${res.status}`);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    .then(checkResponse)
 };
